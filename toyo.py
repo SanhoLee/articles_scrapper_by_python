@@ -36,17 +36,23 @@ def get_year_list():
 
 
 def get_article_info(html):
-    cate = html.find('span', {'class': 'label'}).get_text(strip=True)
-    date = html.find('div', {'class': 'date-cell'}).get_text(strip=True)
-    title = html.find('div', {'class': 'ttl-cell'}).find('a').get_text(strip=True)
-    link = html.find('div', {'class': 'ttl-cell'}).find('a').get('href')
-    return {
-        'Category': cate,
-        'Upload date': date,
-        'Title': title,
-        'link': f'{URL}{link}'
-    }
-
+    # filtering by categorical classification of the article.
+    # _cate02 is article that is for tire business
+    # label is class name for categorical classification
+    cate = html.find('span', {'class': '_cate02'})
+    if cate != None:
+        cate = cate.get_text(strip=True)
+        date = html.find('div', {'class': 'date-cell'}).get_text(strip=True)
+        title = html.find('div', {'class': 'ttl-cell'}).find('a').get_text(strip=True)
+        link = html.find('div', {'class': 'ttl-cell'}).find('a').get('href')
+        return {
+            'Category': cate,
+            'Upload date': date,
+            'Title': title,
+            'link': f'{URL}{link}'
+        }
+    else:
+        return None
 
 # def get_articles_info(last_page, list_of_years):
 
@@ -60,8 +66,13 @@ def get_articles(list_of_years):
             articles_raw = soup.find_all('div', {'class': 'con'})
             for article in articles_raw:
                 article_content = get_article_info(article)
-                articles.append(article_content)
+                # it needs exclude None data
+                if article_content != None:
+                    articles.append(article_content)
+                else:
+                    None
     return articles
+
 
 def articles():
     years = get_year_list()

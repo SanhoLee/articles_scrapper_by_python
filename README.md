@@ -1,0 +1,1 @@
+# Scrapping Articles from Some Comapnies. It is applied from previous web scrapping repo. content.
