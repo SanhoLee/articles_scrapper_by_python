@@ -75,6 +75,7 @@ def get_articles(list_of_years):
 
 
 def articles():
+    print('Scrapping Start : TOYO COMPANY')
     years = get_year_list()
     articles_results = get_articles(years)
     print(f'Number of TOYO Articles : {len(articles_results)}')
